@@ -9,6 +9,7 @@ from pandas_datareader import data as pdr_data
 import pandas as pd
 import numpy as np
 from datetime import date, timedelta, datetime
+from pytz import timezone
 
 
 def fetch_data(source):
@@ -18,7 +19,8 @@ def fetch_data(source):
     """
     today = date.today()
     start_date = today - timedelta(days=365 * 10)
-    end_date = today if datetime.now().hour > 17 else today - timedelta(days=1)
+    tz = timezone('EST')
+    end_date = today if datetime.now(tz).hour > 17 else today - timedelta(days=1)
 
     panel_data = pdr_data.DataReader(['SPY'], source,
                                      start_date, end_date)
